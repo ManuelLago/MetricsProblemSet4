@@ -16,20 +16,20 @@ dataemp <- dataemp  %>% add_column(agegroup = (ceiling(age*i)/i)+1/(2*i)) %>%
   mutate(dens = gn/nrow(dataemp))
 
 #Figure 1 Density of age
-rdplot( dataemp$dens, dataemp$age, c=40, p=2, title="Density of Age at Layoff", x.label = "Age", y.label ="Density")
+rdplot( dataemp$dens, dataemp$age, c=40, p=2, masspoints="off", title="Density of Age at Layoff", x.label = "Age", y.label ="Density")
 
 #Figure 2 Previous wage at the threshold
 dataemp <- dataemp %>% 
   group_by(agegroup) %>%
   mutate(avwage0 = mean(as.numeric(lwage0),na.rm=T))
-rdplot( dataemp$avwage0, dataemp$agegroup, c=40, p=2,  title="Previous wage at the threshold", 
+rdplot( dataemp$avwage0, dataemp$agegroup, c=40, p=2, masspoints="off", title="Previous wage at the threshold", 
         x.label = "Age", y.label ="Log Previous Wage")
 
 #Figure 3 Nonemployment Duration
 dataemp <- dataemp %>%
   group_by(agegroup) %>%
   mutate(avnonem = mean(as.numeric(nonemp),na.rm=T))
-rdplot( dataemp$avnonem, dataemp$agegroup, c=40, p=2,  title="Unemployment Benefit Extension and Nonemployment Duration", 
+rdplot( dataemp$avnonem, dataemp$agegroup, c=40, p=2, masspoints="off", title="Unemployment Benefit Extension and Nonemployment Duration", 
         x.label = "Age", y.label ="Non-Emplyment Duration")
 
 #Figure 4 Probability of Finding a Job after 39 Weeks
@@ -37,18 +37,18 @@ rdplot( dataemp$avnonem, dataemp$agegroup, c=40, p=2,  title="Unemployment Benef
 dataemp <- dataemp %>% 
   group_by(agegroup) %>%
   mutate(avfindjob = mean(as.numeric(jobfind),na.rm=T))
-rdplot(dataemp$avfindjob, dataemp$agegroup, c=40, p=2,  title="Finding a Job within 39 Weeks", 
-        x.label = "Age", y.label ="Probability of finding job")
+rdplot(dataemp$avfindjob, dataemp$agegroup, c=40, p=2,  masspoints="off", title="Finding a Job within 39 Weeks", 
+       x.label = "Age", y.label ="Probability of finding job")
 
 #Figure 5 New wage around threshhold
 dataemp <- dataemp %>% 
   group_by(agegroup) %>%
   mutate(avwage1 = mean(as.numeric(lwage1),na.rm=T))
-rdplot( dataemp$avwage1, dataemp$agegroup, c=40, p=2,  title="Previous wage at the threshold", 
+rdplot( dataemp$avwage1, dataemp$agegroup, c=40, p=2, masspoints="off", title="New wage at the threshold", 
         x.label = "Age", y.label ="Log Previous Wage")
 
 
-rdplot( dataemp$avwage1, dataemp$agegroup, c=40, p=2, masspoints="off",  title="Previous wage at the threshold", 
+rdplot( dataemp$avwage1, dataemp$agegroup, c=40, p=2, masspoints="off",  title="New wage at the threshold", 
         x.label = "Age", y.label ="Log Previous Wage")
 
 ##########Ex 5
@@ -111,9 +111,9 @@ star.out.4<- stargazer(model10, model11, model12,  align=T, dep.var.labels=c("No
 
 #Panel 5 - Nonparametric estimation
 
-model13<- rdrobust(dataemp$nonemp, dataemp$age, c=40, all=T)   #noneplyment duration
-model14<- rdrobust(dataemp$jobfind, dataemp$age, c=40, all=T)  #Prob of finding a job within 39
-model15<- rdrobust(dataemp$lwage1, dataemp$age, c=40, all=T)  #re-employment wage
+model13<- rdrobust(dataemp$nonemp, dataemp$age, c=40, all=T, masspoints="off")   #noneplyment duration
+model14<- rdrobust(dataemp$jobfind, dataemp$age, c=40, all=T, masspoints="off")  #Prob of finding a job within 39
+model15<- rdrobust(dataemp$lwage1, dataemp$age, c=40, all=T, masspoints="off")  #re-employment wage
 
 star.out.5<- stargazer(model13, model14, model15,  align=T, dep.var.labels=c("Non-Employment Duration", 
                                                                              "New Job Within 39 Weeks", 
